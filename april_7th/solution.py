@@ -1,22 +1,22 @@
-from bisect import bisect_left, bisect_right
-
 def solution(words, queries):
-    result = []
-
+    result = [0] * len(queries)
+    
     for i in range(len(queries)):
         count = queries[i].count('?')
         length = len(queries[i])
-        sum = 0
         ind = queries[i].index('?')
-        if ind == 0:
-            for word in words:
-                if word[count:] == queries[i][count:] and length == len(word):
+        sum = 0
+
+        for word in words:
+            if len(word) != length:
+                continue
+            elif ind == 0:
+                if word[count:] == queries[i][count:]:
                     sum += 1
-            result.append(sum)
-        else:
-            for word in words:
-                if word[:ind] == queries[i][:ind] and length == len(word):
+            else:
+                if word[:ind] == queries[i][:ind]:
                     sum += 1
-            result.append(sum)
+    
+            result[i] = sum
 
     return result
